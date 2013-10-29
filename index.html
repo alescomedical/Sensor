@@ -1,0 +1,231 @@
+<!doctype html>
+<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
+<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on http://github.com/jonrohan -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen"/>
+  <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/script.js"></script>
+
+  <title>AlescoGlassesSensor</title>
+  <meta name="description" content="PrimeSensor Modules for OpenNI">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <header>
+      <h1 class="title">AlescoGlassesSensor</h1>
+    </header>
+    <div id="container">
+      <p class="tagline">PrimeSensor Modules for OpenNI</p>
+      <div id="main" role="main">
+        <div class="download-bar">
+        <div class="inner">
+          <a href="https://github.com/alescomedical/Sensor/tarball/master" class="download-button tar"><span>Download</span></a>
+          <a href="https://github.com/alescomedical/Sensor/zipball/master" class="download-button zip"><span>Download</span></a>
+          <a href="https://github.com/alescomedical/Sensor" class="code">View AlescoGlassesSensor on GitHub</a>
+        </div>
+        <span class="blc"></span><span class="trc"></span>
+        </div>
+        <article class="markdown-body">
+          <h2>
+<a name="primesense-sensor-module-for-openni-version-5121---may-15th-2012" class="anchor" href="#primesense-sensor-module-for-openni-version-5121---may-15th-2012"><span class="octicon octicon-link"></span></a>PrimeSense Sensor Module for OpenNI (Version 5.1.2.1 - May 15th 2012)</h2>
+
+<p>Website: <a href="http://www.primesense.com">http://www.primesense.com</a>
+Forum: <a href="http://groups.google.com/group/openni-dev">http://groups.google.com/group/openni-dev</a>
+Wiki: <a href="http://wiki.openni.org">http://wiki.openni.org</a></p>
+
+<p>Binaries are available at:
+<a href="http://www.openni.org/Downloads/OpenNIModules.aspx">http://www.openni.org/Downloads/OpenNIModules.aspx</a>
+(The "OpenNI Compliant Hardware Binaries" section)</p>
+
+<p>Sources are available at:
+<a href="https://github.com/PrimeSense/Sensor">https://github.com/PrimeSense/Sensor</a>
+or
+<a href="https://github.com/PrimeSense/Sensor/tree/unstable">https://github.com/PrimeSense/Sensor/tree/unstable</a>
+for the unstable branch</p>
+
+<h2>
+<a name="release-notes" class="anchor" href="#release-notes"><span class="octicon octicon-link"></span></a>Release Notes:</h2>
+
+<ul>
+<li>At the moment, the default is to compile the code with SSE3 support (this is also true for the supplied binaries). 
+If you have a CPU without such support, please remove the sse compiler flags from the make files.
+(A good hint for this error is that you encounter an "illegal instructions" messages)</li>
+<li>By default, the linux kernel mounts unknown USB devices with write permissions to root only, and read-only permissions to other users.
+When not running as root, this prevents communicating with the device. To fix this issue:
+
+<ul>
+<li>Navigate to Platform/Linux/Build</li>
+<li>run 'make install-usb-rules'</li>
+<li>if the device was connected, unplug and reconnect it.
+This part is done automatically by the install script, but you will need to do it manually if you choose not to use the automated install.</li>
+</ul>
+</li>
+<li>Linux: The device driver contains a thread for reading from the USB device. This thread should have high priority in order to function correctly. Each process using the device driver should have the CAP_SYS_NICE capability in order to raise thread priority. Failing to have that capability, will cause a failure in setting priority, consequently causing loss of data.</li>
+<li>MacOSX: Only OSX 10.6 (Snow Leopard) and above with a 64-bit Intel based CPU is currently supported.
+Client/Server is not supported yet so do not attempt to access the sensor with more then one application.</li>
+</ul><h2>
+<a name="build-notes" class="anchor" href="#build-notes"><span class="octicon octicon-link"></span></a>Build Notes:</h2>
+
+<p>Windows:
+    Requirements:
+        1) Microsoft Visual Studio 2010
+           From: <a href="http://msdn.microsoft.com/en-us/vstudio/bb984878.aspx">http://msdn.microsoft.com/en-us/vstudio/bb984878.aspx</a>
+        2) Python 2.6+/3.x
+           From: <a href="http://www.python.org/download/">http://www.python.org/download/</a>
+        3) PyWin32
+           From: <a href="http://sourceforge.net/projects/pywin32/files/pywin32/">http://sourceforge.net/projects/pywin32/files/pywin32/</a>
+           Please make sure you download the version that matches your exact python version.
+        4) WIX 3.5
+           From: <a href="http://wix.codeplex.com/releases/view/60102">http://wix.codeplex.com/releases/view/60102</a>
+        5) OpenNI 1.5.x.x
+           From: <a href="http://www.openni.org/Downloads/OpenNIModules.aspx">http://www.openni.org/Downloads/OpenNIModules.aspx</a> </p>
+
+<pre><code>Optional Requirements (To build the documentation):
+    1) Doxygen
+       From: http://www.stack.nl/~dimitri/doxygen/download.html#latestsrc
+    2) GraphViz
+       From: http://www.graphviz.org/Download_windows.php
+
+Building Sensor:
+    1) Go to the directory: "Platform\Win32\CreateRedist".
+       Run the script: "Redist.py".
+       This will compile and prepare the redist exe files that includes everything.
+    2) Install the exe you've just made which is located in Platform\Win32\CreateRedist\FinalXX\Sensor-Win32-5.x.x.x.exe
+       (XX being the number of bits: 32 or 64)
+       The installer will also automatically register all the modules into OpenNI via the NiReg utility.
+
+    The visual studio solution is located in: Platform\Win32\Build\EngineWin32.sln.
+
+    Important: Please note that even though the directory is called Win32, you can also use it to compile it for 64-bit targets (AMD64/x64).
+</code></pre>
+
+<p>Linux:
+    Requirements:
+        1) GCC 4.x
+           From: <a href="http://gcc.gnu.org/releases.html">http://gcc.gnu.org/releases.html</a>
+           Or via apt:
+           sudo apt-get install g++
+        2) Python 2.6+/3.x
+           From: <a href="http://www.python.org/download/">http://www.python.org/download/</a>
+           Or via apt:
+           sudo apt-get install python
+        3) OpenNI 1.5.x.x
+           From: <a href="http://www.openni.org/Downloads/OpenNIModules.aspx">http://www.openni.org/Downloads/OpenNIModules.aspx</a></p>
+
+<pre><code>Building Sensor:
+    1) Go into the directory: "Platform/Linux/CreateRedist".
+       Run the script: "./RedistMaker".
+       This will compile everything and create a redist package in the "Platform/Linux/Redist" directory.
+       It will also create a distribution in the "Platform/Linux/CreateRedist/Final" directory.
+    2) Go into the directory: "Platform/Linux/Redist".
+       Run the script: "sudo ./install.sh" (needs to run as root)
+
+       The install script copies key files to the following location:
+           Libs into: /usr/lib
+           Bins into: /usr/bin
+           Config files into: /usr/etc/primesense
+           USB rules into: /etc/udev/rules.d 
+           Logs will be created in: /var/log/primesense
+
+    To build the package manually, you can run "make" in the "Platform\Linux\Build" directory.
+
+    Important: Please note that even though the directory is called Linux, you can also use it to compile it for 64-bit targets and pretty much any other linux based environment.  
+
+Building Sensor using a cross-compiler:
+    1) Make sure to define two environment variables:
+       - &lt;platform&gt;_CXX - the name of the cross g++ for platform &lt;platform&gt;
+       - &lt;platform&gt;_STAGING - a path to the staging dir (a directory which simulates the target root filesystem).
+       Note that &lt;platform&gt; should be upper cased.
+       For example, if wanting to compile for ARM from a x86 machine, ARM_CXX and ARM_STAGING should be defined.
+    2) Go into the directory: "Platform/Linux/CreateRedist".
+       Run: "./RedistMaker &lt;platform&gt;" (for example: "./RedistMake Arm").
+       This will compile everything and create a redist package in the "Platform/Linux/Redist" directory.
+       It will also create a distribution in the "Platform/Linux/CreateRedist/Final" directory.
+    3) To install OpenNI files on the target file system:
+       Go into the directory: "Platform/Linux/Redist".
+       Run the script: "./install.sh -c $&lt;platform&gt;_STAGING" (for example: "./install.sh -c $ARM_STAGING").
+
+       The install script copies key files to the following location:
+           Libs into: STAGING/usr/lib
+           Bins into: STAGING/usr/bin
+           Config files into: STAGING/usr/etc/primesense
+           USB rules into: STAGING/etc/udev/rules.d 
+           Logs will be created in: STAGING/var/log/primesense
+
+    To build the package manually, you can run "make PLATFORM=&lt;platform&gt;" in the "Platform\Linux\Build" directory.
+    If you wish to build the Mono wrappers, also run "make PLATFORM=&lt;platform&gt; mono_wrapper" and "make PLATFORM=&lt;platform&gt; mono_samples".
+</code></pre>
+
+<p>MacOSX:
+    Requirements:
+        1) For Mac OSX 10.7, Xcode 4.3.2
+              From: <a href="http://developer.apple.com/devcenter/mac/index.action">http://developer.apple.com/devcenter/mac/index.action</a>
+              <a href="http://adcdownload.apple.com/Developer_Tools/xcode_4.3.2/xcode_432_lion.dmg">http://adcdownload.apple.com/Developer_Tools/xcode_4.3.2/xcode_432_lion.dmg</a>    </p>
+
+<pre><code>          You will also need to download and install the "Commandline Tools for XCode - Late March 2012" package:
+          http://adcdownload.apple.com/Developer_Tools/command_line_tools_for_xcode_4.4__late_march_2012/cltools_lion_latemarch12.dmg
+
+          Note: Since Xcode is now a normal application, it no longer automatically install itself. You have to copy&amp;paste Xcode yourself into your Applications folder. 
+                (or run the application "Install Xcode" from your Applications folder / LaunchPad).            
+                It's also recommended to run the following command after you do the above:
+                  sudo xcode-select -switch /Applications/Xcode.app/
+
+       For Mac OSX 10.6, Xcode 3.2.6:
+          From: http://developer.apple.com/devcenter/mac/index.action
+          http://developer.apple.com/devcenter/download.action?path=/Developer_Tools/xcode_3.2.6_and_ios_sdk_4.3__final/xcode_3.2.6_and_ios_sdk_4.3.dmg
+
+       Please note that you need to register as a mac developer (It's free!).
+
+    2) OpenNI 1.5.x.x
+       From: http://www.openni.org/Downloads/OpenNIModules.aspx
+
+Building Sensor:
+    1) Go into the directory: "Platform/Linux/CreateRedist".
+       Run the script: "./RedistMaker".
+       This will compile everything and create a redist package in the "Platform/Linux/Redist" directory.
+       It will also create a distribution in the "Platform/Linux/CreateRedist/Final" directory.
+    2) Go into the directory: "Platform/Linux/Redist".
+       Run the script: "sudo ./install.sh" (needs to run as root)
+
+       The install script copies key files to the following location:
+           Libs into: /usr/lib
+           Bins into: /usr/bin
+           Config files into: /usr/etc/primesense
+           USB rules into: /etc/udev/rules.d 
+           Logs will be created in: /var/log/primesense
+
+    To build the package manually, you can run "make" in the "Platform\Linux\Build" directory.
+</code></pre>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="owner">
+      <p><a href="https://github.com/alescomedical" class="avatar"><img src="https://2.gravatar.com/avatar/1dd16ebd2970f9813751b2692621af25?d=https%3A%2F%2Fidenticons.github.com%2F0152bfc4a710382b1dbe9bfe1726a0f8.png&amp;r=x&amp;s=60" width="48" height="48"/></a> <a href="https://github.com/alescomedical">alescomedical</a> maintains <a href="https://github.com/alescomedical/Sensor">AlescoGlassesSensor</a></p>
+
+
+      </div>
+      <div class="creds">
+        <small>This page generated using <a href="https://pages.github.com/">GitHub Pages</a><br/>theme by <a href="https://twitter.com/jonrohan/">Jon Rohan</a></small>
+      </div>
+    </footer>
+  </div>
+  <div class="current-section">
+    <a href="#top">Scroll to top</a>
+    <a href="https://github.com/alescomedical/Sensor/tarball/master" class="tar">tar</a><a href="https://github.com/alescomedical/Sensor/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
+    <p class="name"></p>
+  </div>
+
+  
+</body>
+</html>
